@@ -335,6 +335,8 @@ public:
         this->getValues_();
     }
 
+    Vector3 centercamera;
+
     bool created(){
         return created_;
     }
