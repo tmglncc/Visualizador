@@ -230,7 +230,9 @@ void ogl::GlutWindow::glutMotion(int x, int y) {
 	}
 	else if (bpress == GLUT_RIGHT_BUTTON) {
 		int dz = pos.y - y;
-		observer.z = observer.z + dz / SENS_OBS;
+		if (observer.z<100){dz=y;}
+		if (observer.z>config->centercamera.z+100){dz=-y;}
+		observer.z = observer.z + (dz / SENS_OBS)/80;
 	}
 	else if (bpress == GLUT_MIDDLE_BUTTON) {
 		int dx = pos.x - x;
@@ -281,7 +283,7 @@ void ogl::GlutWindow::glutDisplay() {
 
 
 	glPushMatrix();
-	
+
 		glScalef(config->scale.x, config->scale.y, config->scale.z);
 
 		if (config->display.lateralLine) {
