@@ -208,7 +208,6 @@ void ogl::Render::axisDraw()
 	glDisable(GL_LIGHTING);
 	glLineWidth(3.0);
 
-	glTranslatef(2512, -50, 0);
 	glBegin(GL_LINES);
 		glColor3f(1.0f, 0.0f, 0.0f);
 		glVertex3f(0.0, 0.0, 0.0);
