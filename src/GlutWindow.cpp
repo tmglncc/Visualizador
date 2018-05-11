@@ -236,9 +236,9 @@ void ogl::GlutWindow::glutMotion(int x, int y) {
 	}
 	else if (bpress == GLUT_MIDDLE_BUTTON) {
 		int dx = pos.x - x;
-		int dy = pos.y - y;
-		observer.x = observer.x + dx / SENS_TRANSL;
-		observer.y = observer.y + dy / SENS_TRANSL;
+		int dy = -(pos.y - y);
+		observer.x = (observer.x + dx / SENS_TRANSL)/(1.08+(0.1-(observer.z/(config->centercamera.x*10))));
+		observer.y = (observer.y + dy / SENS_TRANSL)/(1.08+(0.1-(observer.z/(config->centercamera.x*10))));
 	}
 
 	glMatrixMode(GL_MODELVIEW);
