@@ -13,7 +13,7 @@ GLint bpress;
 ogl::GlutWindow::GlutWindow(int argc, char * argv[])
 {
 	glutInit(&argc, argv);
-	observer = Vector3(config->camera.pos.x, config->camera.pos.y, config->camera.pos.z);
+	observer = Vector3(config->camera.pos.x, config->camera.pos.y, config->camera.pos.z + config->centercamera.z);
 	//glutInitWindowposition((glutGet(GLUT_SCREEN_WIDTH) - config->window.width) / 2, (glutGet(GLUT_SCREEN_HEIGHT) - config->window.height) / 2);
 	glutInitWindowSize(config->window.width, config->window.height);
 	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
