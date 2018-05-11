@@ -224,7 +224,7 @@ void ogl::GlutWindow::glutMouse(int button, int state, int x, int y) {
 
 //Mouse Motion
 void ogl::GlutWindow::glutMotion(int x, int y) {
-	if (bpress == GLUT_LEFT_BUTTON) {
+	if (bpress == GLUT_LEFT_BUTTON && config->fileFormat==TRI_D) {
 		rotation.y = rotIni.y - (pos.x - x) / SENS_ROT;
 		rotation.x = rotIni.x - (pos.y - y) / SENS_ROT;
 	}
