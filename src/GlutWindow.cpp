@@ -293,6 +293,7 @@ void ogl::GlutWindow::glutDisplay() {
 				glLineWidth(15);
 				glColor3f(config->display.cells.SC2.color.primary.r, config->display.cells.SC2.color.primary.g, config->display.cells.SC2.color.primary.b);
 				//Right
+				glTranslatef(-config->centercamera.x/2,-config->centercamera.y/2,0);
 				glBegin(GL_LINES);
 				glVertex3f(0, config->display.lines.minimumLimit.y, 5);
 				glVertex3f(0, config->display.lines.maximumLimit.y, 5);

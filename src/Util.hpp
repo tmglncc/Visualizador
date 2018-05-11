@@ -22,7 +22,7 @@ typedef enum
 	NOR = 6,  /***  Normal			***/
 	TC	= 7,
 	SC1	= 8,
-	SC2	= 9
+	SC2	= 10,
 
 } CellState;
 
