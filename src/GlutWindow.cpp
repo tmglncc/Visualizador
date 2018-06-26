@@ -294,16 +294,16 @@ void ogl::GlutWindow::glutDisplay() {
 	//Criando Framebuffer
 	glGenRenderbuffers(NumRenderbuffers, renderbuffer);
 	glBindRenderbuffer(GL_RENDERBUFFER, renderbuffer[Color]);
-	glRenderbufferStorage(GL_RENDERBUFFER, GL_RGBA, 7680, 4320);
+	glRenderbufferStorage(GL_RENDERBUFFER, GL_RGBA, config->pngResolution.x, config->pngResolution.y);
 	glBindRenderbuffer(GL_RENDERBUFFER, renderbuffer[Depth]);
-	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT24, 7680, 4320);
+	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT24, config->pngResolution.x, config->pngResolution.y);
 
 	glGenFramebuffers(1, &framebuffer);
 	glBindFramebuffer(GL_DRAW_FRAMEBUFFER, framebuffer);
 	glFramebufferRenderbuffer(GL_DRAW_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_RENDERBUFFER, renderbuffer[Color]);
 	glFramebufferRenderbuffer(GL_DRAW_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, renderbuffer[Depth]);
 
-	glViewport(0,0,7680,4320);
+	glViewport(0,0,config->pngResolution.x,config->pngResolution.y);
 	glBindFramebuffer(GL_DRAW_FRAMEBUFFER, framebuffer);
 
 	}
@@ -373,7 +373,7 @@ void ogl::GlutWindow::glutDisplay() {
 		glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-		glBlitFramebuffer(0,0,7680,4320,0,0,7680,4320,GL_COLOR_BUFFER_BIT, GL_NEAREST);
+		glBlitFramebuffer(0,0,config->pngResolution.x,config->pngResolution.y,0,0,config->pngResolution.x,config->pngResolution.y,GL_COLOR_BUFFER_BIT, GL_NEAREST);
 		config->highRes=false;
 			}
 

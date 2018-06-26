@@ -49,6 +49,23 @@ private:
         }
     }
 
+    void getResValues_()
+    {
+        const Setting& pathsConf = this->cfg_.getRoot()["viewer"]["pngResolution"];
+
+        try
+        {
+            pathsConf.lookupValue("x", this->pngResolution.x);
+            pathsConf.lookupValue("y", this->pngResolution.y);
+
+        }
+        catch(const SettingNotFoundException &nfex)
+        {
+            this->created_ = false;
+            std::cerr << "Resolution Settings Not Found!" << std::endl;
+        }
+    }
+
     void getWindowValues_()
     {
         const Setting& windowConf = this->cfg_.getRoot()["viewer"]["window"];
@@ -310,6 +327,7 @@ private:
         this->getCameraValues_();
         this->getFileFormatValues_();
         this->getScaleValues_();
+        this->getResValues_();
     }
 
 
@@ -386,6 +404,7 @@ public:
         Vector3 pos;
     } camera;
     Vector3 scale;
+    Vector3 pngResolution;
     FileFormat fileFormat;
 };
 
