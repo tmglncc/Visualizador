@@ -336,6 +336,7 @@ public:
     }
 
     Vector3 centercamera;
+    bool highRes;
 
     bool created(){
         return created_;

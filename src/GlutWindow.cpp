@@ -1,3 +1,4 @@
+#define GL_GLEXT_PROTOTYPES
 #include "GlutWindow.hpp"
 
 //Observer Position
@@ -9,6 +10,9 @@ Vector3	rotation,
 		pos;
 
 GLint bpress;
+
+enum { Color, Depth, NumRenderbuffers };
+GLuint framebuffer, renderbuffer[NumRenderbuffers];
 
 ogl::GlutWindow::GlutWindow(int argc, char * argv[])
 {
@@ -73,7 +77,13 @@ void ogl::GlutWindow::glutKeyboard(unsigned char key, int x, int y) {
 	case 27: //ESC: EXIT
 		exit(0);
 		case 'p': // PrintScreen PNG
+			config->highRes=true;
+			glutDisplay();
 			ogl::Screenshot::takeScreenshot(Util::generateImageFileName(Util::getCurrentTime(), "out/", PNG));
+			glDeleteRenderbuffers(NumRenderbuffers, renderbuffer);
+			glDeleteFramebuffers(1,&framebuffer);
+			glutReshapeWindow(config->window.width, config->window.height);
+			glutFullScreen();
 			break;
 		case 'P': // PrintScreen JPG
 			ogl::Screenshot::takeScreenshot(Util::generateImageFileName(Util::getCurrentTime(), "out/", JPG));
@@ -279,6 +289,25 @@ void ogl::GlutWindow::renderString(GLdouble x, GLdouble y, std::string text) {
 
 //Display Function
 void ogl::GlutWindow::glutDisplay() {
+
+	if(config->highRes==true){
+	//Criando Framebuffer
+	glGenRenderbuffers(NumRenderbuffers, renderbuffer);
+	glBindRenderbuffer(GL_RENDERBUFFER, renderbuffer[Color]);
+	glRenderbufferStorage(GL_RENDERBUFFER, GL_RGBA, 7680, 4320);
+	glBindRenderbuffer(GL_RENDERBUFFER, renderbuffer[Depth]);
+	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT24, 7680, 4320);
+
+	glGenFramebuffers(1, &framebuffer);
+	glBindFramebuffer(GL_DRAW_FRAMEBUFFER, framebuffer);
+	glFramebufferRenderbuffer(GL_DRAW_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_RENDERBUFFER, renderbuffer[Color]);
+	glFramebufferRenderbuffer(GL_DRAW_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, renderbuffer[Depth]);
+
+	glViewport(0,0,7680,4320);
+	glBindFramebuffer(GL_DRAW_FRAMEBUFFER, framebuffer);
+
+	}
+
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 
@@ -338,6 +367,15 @@ void ogl::GlutWindow::glutDisplay() {
 	glPopMatrix();
 
 	GlutWindow::play();
+
+	if(config->highRes==true){
+		glBindFramebuffer(GL_READ_FRAMEBUFFER,framebuffer);
+		glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+		glBlitFramebuffer(0,0,7680,4320,0,0,7680,4320,GL_COLOR_BUFFER_BIT, GL_NEAREST);
+		config->highRes=false;
+			}
 
 	glutSwapBuffers();
 }
