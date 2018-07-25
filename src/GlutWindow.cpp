@@ -274,11 +274,15 @@ void ogl::GlutWindow::renderString(GLdouble x, GLdouble y, std::string text) {
 	glPushMatrix();
 	glLoadIdentity();
 		glColor3f(0.0f, 0.0f, 0.0f);
-		glRasterPos2d(x, y);
+		glScalef(0.18, 0.18, 0.18);
+		GLint viewport_res[4];
+		glGetIntegerv(GL_VIEWPORT, viewport_res);
+		glLineWidth(viewport_res[3]/500);
+		glTranslatef(x,y,0);
 
 		for (int i = 0; i < text.length(); i++)
 		{
-			glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24, text[i]);
+			glutStrokeCharacter(GLUT_STROKE_ROMAN,text[i]);
 		}
 		glPopMatrix();
 
@@ -335,48 +339,48 @@ void ogl::GlutWindow::glutDisplay() {
     	if(config->display.showInfo)
     	{
     		std::string info = 	"Agents: " +  std::to_string(frames[config->player.frame]->cells.size()) + "    Out cells: " +  std::to_string(frames[config->player.frame]->outCells)  + "    Tumor cells: " +  std::to_string(frames[config->player.frame]->tumorCells)  + "    Time step: " +  std::to_string(frames[config->player.frame]->time);
-    		GlutWindow::renderString(10, 990, info);
+    		GlutWindow::renderString(100, 5500, info);
     	}
 
 		if(config->display.viewMode == NUT)
 		{
 			std::string info = 	"Oxygen";
-			GlutWindow::renderString(10, 900, info);
+			GlutWindow::renderString(100, 5100, info);
 			GlutWindow::renderQuad(100, 100);
-			GlutWindow::renderString(1160, 230, "0.0");
+			GlutWindow::renderString(6400, 1300, "0.0");
 			std::stringstream stream;
 			stream << std::setprecision(3) << config->display.oxygenDisplay*0.25;
-			GlutWindow::renderString(1160, 330, stream.str());
+			GlutWindow::renderString(6400, 1850, stream.str());
 			stream.str(std::string());
 			stream << std::setprecision(3) << config->display.oxygenDisplay*0.5;
-			GlutWindow::renderString(1160, 430, stream.str());
+			GlutWindow::renderString(6400, 2400, stream.str());
 			stream.str(std::string());
 			stream << std::setprecision(3) << config->display.oxygenDisplay*0.75;
-			GlutWindow::renderString(1160, 530, stream.str());
+			GlutWindow::renderString(6400, 2950, stream.str());
 			stream.str(std::string());
 			stream << std::setprecision(3) << config->display.oxygenDisplay;
-			GlutWindow::renderString(1160, 630, stream.str());
+			GlutWindow::renderString(6400, 3500, stream.str());
 
 		}
 		else if(config->display.viewMode == EGF)
 		{
 			std::string info = 	"EGF";
-			GlutWindow::renderString(10, 900, info);
+			GlutWindow::renderString(100, 5100, info);
 			GlutWindow::renderQuad(100, 100);
-			GlutWindow::renderString(1100, 670, "nM/s");
-			GlutWindow::renderString(1160, 230, "0.0");
+			GlutWindow::renderString(6100, 3650, "nM/s");
+			GlutWindow::renderString(6400, 1300, "0.0");
 			std::stringstream stream;
 			stream << std::setprecision(3) << config->display.egfDisplay*0.25;
-			GlutWindow::renderString(1160, 330, stream.str());
+			GlutWindow::renderString(6400, 1850, stream.str());
 			stream.str(std::string());
 			stream << std::setprecision(3) << config->display.egfDisplay*0.5;
-			GlutWindow::renderString(1160, 430, stream.str());
+			GlutWindow::renderString(6400, 2400, stream.str());
 			stream.str(std::string());
 			stream << std::setprecision(3) << config->display.egfDisplay*0.75;
-			GlutWindow::renderString(1160, 530, stream.str());
+			GlutWindow::renderString(6400, 2950, stream.str());
 			stream.str(std::string());
 			stream << std::setprecision(3) << config->display.egfDisplay;
-			GlutWindow::renderString(1160, 630, stream.str());
+			GlutWindow::renderString(6400, 3500, stream.str());
 
 		}
 
