@@ -92,6 +92,8 @@ private:
         {
             displayConf.lookupValue("showLines", this->display.showLines);
             displayConf.lookupValue("showInfo", this->display.showInfo);
+            displayConf.lookupValue("Oxigen", this->display.oxygenDisplay);
+            displayConf.lookupValue("EGF", this->display.egfDisplay);
 
             std::string viewMode;
 
@@ -382,6 +384,7 @@ public:
 
     struct
     {
+        float oxygenDisplay, egfDisplay;
         bool    showLines,
                 showInfo,
                 lateralLine;

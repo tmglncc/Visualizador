@@ -344,10 +344,19 @@ void ogl::GlutWindow::glutDisplay() {
 			GlutWindow::renderString(10, 900, info);
 			GlutWindow::renderQuad(100, 100);
 			GlutWindow::renderString(1160, 230, "0.0");
-			GlutWindow::renderString(1160, 330, "0.15");
-			GlutWindow::renderString(1160, 430, "0.30");
-			GlutWindow::renderString(1160, 530, "0.45");
-			GlutWindow::renderString(1160, 630, "0.60");
+			std::stringstream stream;
+			stream << std::setprecision(3) << config->display.oxygenDisplay*0.25;
+			GlutWindow::renderString(1160, 330, stream.str());
+			stream.str(std::string());
+			stream << std::setprecision(3) << config->display.oxygenDisplay*0.5;
+			GlutWindow::renderString(1160, 430, stream.str());
+			stream.str(std::string());
+			stream << std::setprecision(3) << config->display.oxygenDisplay*0.75;
+			GlutWindow::renderString(1160, 530, stream.str());
+			stream.str(std::string());
+			stream << std::setprecision(3) << config->display.oxygenDisplay;
+			GlutWindow::renderString(1160, 630, stream.str());
+
 		}
 		else if(config->display.viewMode == EGF)
 		{
@@ -356,10 +365,19 @@ void ogl::GlutWindow::glutDisplay() {
 			GlutWindow::renderQuad(100, 100);
 			GlutWindow::renderString(1100, 670, "nM/s");
 			GlutWindow::renderString(1160, 230, "0.0");
-			GlutWindow::renderString(1160, 330, "0.5");
-			GlutWindow::renderString(1160, 430, "1.0");
-			GlutWindow::renderString(1160, 530, "1.5");
-			GlutWindow::renderString(1160, 630, "3.0");
+			std::stringstream stream;
+			stream << std::setprecision(3) << config->display.egfDisplay*0.25;
+			GlutWindow::renderString(1160, 330, stream.str());
+			stream.str(std::string());
+			stream << std::setprecision(3) << config->display.egfDisplay*0.5;
+			GlutWindow::renderString(1160, 430, stream.str());
+			stream.str(std::string());
+			stream << std::setprecision(3) << config->display.egfDisplay*0.75;
+			GlutWindow::renderString(1160, 530, stream.str());
+			stream.str(std::string());
+			stream << std::setprecision(3) << config->display.egfDisplay;
+			GlutWindow::renderString(1160, 630, stream.str());
+
 		}
 
     	if(config->display.showLines)
