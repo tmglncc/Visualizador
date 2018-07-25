@@ -4,6 +4,7 @@
 #include <chrono>
 #include <thread>
 #include <sstream>
+#include <time.h>
 
 namespace ogl {
 	#define SENS_ROT    5.0

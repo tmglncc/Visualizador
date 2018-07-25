@@ -272,6 +272,8 @@ private:
                 this->player.state = NEXT;
             else if(playerState == "REVERSE")
                 this->player.state = REVERSE;
+            else if(playerState == "SHOT")
+                this->player.state = SHOT;
             else
                 this->player.state = PAUSE;
 
@@ -357,6 +359,7 @@ public:
 
     Vector3 centercamera;
     bool highRes;
+    int timeCounter=0;
 
     bool created(){
         return created_;

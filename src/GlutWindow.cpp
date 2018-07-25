@@ -76,7 +76,7 @@ void ogl::GlutWindow::glutKeyboard(unsigned char key, int x, int y) {
 	switch (key) {
 	case 27: //ESC: EXIT
 		exit(0);
-		case 'p': // PrintScreen PNG
+		case 'P': // PrintScreen PNG
 			config->highRes=true;
 			glutDisplay();
 			ogl::Screenshot::takeScreenshot(Util::generateImageFileName(Util::getCurrentTime(), "out/", PNG));
@@ -85,7 +85,7 @@ void ogl::GlutWindow::glutKeyboard(unsigned char key, int x, int y) {
 			glutReshapeWindow(config->window.width, config->window.height);
 			glutFullScreen();
 			break;
-		case 'P': // PrintScreen JPG
+		case 'p': // PrintScreen JPG
 			ogl::Screenshot::takeScreenshot(Util::generateImageFileName(Util::getCurrentTime(), "out/", JPG));
 			break;
 				/*** SLICES CONTROL ***/
@@ -136,6 +136,12 @@ void ogl::GlutWindow::glutKeyboard(unsigned char key, int x, int y) {
 	case '0':	// reset Slices
 		config->display.lines.maximumLimit = frames[0]->domain;
 		config->display.lines.minimumLimit = Vector3();
+		break;
+	case 'o': // Sequece Screenshot
+		if(config->player.state == SHOT)
+			config->player.state = PAUSE;
+		else
+			config->player.state = SHOT;
 		break;
 
 
@@ -447,6 +453,20 @@ void ogl::GlutWindow::play() {
 					config->player.frame++;
 				config->player.state = PAUSE;
 				break;
+			case SHOT:
+				if(config->player.frame < frames.size() -1){
+		      if(config->timeCounter==0){config->timeCounter=clock()/10000;}
+						if(config->timeCounter+100<clock()/10000){
+							ogl::Screenshot::takeScreenshot(Util::generateImageFileName(Util::getCurrentTime(), "out/", JPG));
+							config->player.frame++;
+							config->timeCounter=clock()/10000;
+		          }
+		          break;
+						}
+						else
+		          ogl::Screenshot::takeScreenshot(Util::generateImageFileName(Util::getCurrentTime(), "out/", JPG));
+							config->player.state = PAUSE;
+							break;
 			default:
 				config->player.state = PAUSE;
 				break;

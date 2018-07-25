@@ -38,6 +38,7 @@ typedef enum
 	PLAY,
 	PREVIOUS,
 	NEXT,
+	SHOT,
 	REVERSE
 } PlayerStates;
 
