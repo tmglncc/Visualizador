@@ -1,5 +1,14 @@
 #include "Screenshot.hpp"
 
+//Screenshot
+/********************************************//**
+
+*\brief Essa função é responsável por gerar a imagem do Screenshot.
+
+*\param filename recebe hora e data para nomear o arquivio.
+*\details GL_VIEWPORT preenche o vetor m_viewport com a resolução
+da tela.
+***********************************************/
 void ogl::Screenshot::takeScreenshot(std::string filename)
 {
 	GLint m_viewport[4];

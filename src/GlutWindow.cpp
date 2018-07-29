@@ -72,6 +72,15 @@ void ogl::GlutWindow::glutProjection() {
 }
 
 //Keyboard Actions
+/********************************************//**
+
+*\brief Essa função é responsável por receber input do usuário.
+
+*\param key possui o input do usuário.
+*\param x possui a localização das linhas de corte no eixo x
+*\param y possui a localização das linhas de corte no eixo y
+
+***********************************************/
 void ogl::GlutWindow::glutKeyboard(unsigned char key, int x, int y) {
 	switch (key) {
 	case 27: //ESC: EXIT
@@ -225,6 +234,21 @@ void ogl::GlutWindow::glutKeyboard(unsigned char key, int x, int y) {
 }
 
 //Mouse Action
+/********************************************//**
+
+*\brief Essa função é a CallBack Motion da Glut que é
+chamada sempre que o mouse é movimentado.
+
+*\param x coordenada x em pixel da posição do mouse.
+*\param y coordenada y em pixel da posição do mouse.
+
+*\details GLUT_LEFT_BUTTON é responsavel pela rotação.
+
+GLUT_RIGHT_BUTTON é responsavel pelo zoom.
+
+GLUT_MIDDLE_BUTTON é responsavel pela movimentação da camera.
+
+***********************************************/
 void ogl::GlutWindow::glutMouse(int button, int state, int x, int y) {
 	if (state == GLUT_DOWN) {
 		pos.x = x;
@@ -269,7 +293,21 @@ void ogl::GlutWindow::glutMotion(int x, int y) {
 void ogl::GlutWindow::start() {
 	glutMainLoop();
 }
+//Render String
+/********************************************//**
 
+*\brief Essa função recebe o texto para ser exibido na tela,
+como a quantidade de células, e tipo.
+
+*\param x recebe cordenada em x da posição do caracter gerado.
+*\param y recebe cordenada em y da posição do caracter gerado.
+*\param text recebe o texto em si que será exibido.
+
+*\details glLineWidth é responsavel pela grossura do texto, e é dinamico.
+
+A estrutura de repetição "for" gera um caracter por vez.
+
+***********************************************/
 void ogl::GlutWindow::renderString(GLdouble x, GLdouble y, std::string text) {
 	glMatrixMode( GL_PROJECTION );
 	glPushMatrix();
@@ -298,6 +336,23 @@ void ogl::GlutWindow::renderString(GLdouble x, GLdouble y, std::string text) {
 }
 
 //Display Function
+/********************************************//**
+
+*\brief Essa função chama oque será exibido na tela
+
+*\details Display é dividida em:
+
+Criar o FrameBuffer para imagem em alta resolução.
+
+Mostrar a linha lateral.
+
+Mostrar celulas.
+
+Mostrar Interface.
+
+Terminar de alocar o conteudo para o FBO.
+
+***********************************************/
 void ogl::GlutWindow::glutDisplay() {
 
 	if(config->highRes==true){
@@ -320,7 +375,7 @@ void ogl::GlutWindow::glutDisplay() {
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-
+	//Display lateralLine
 	glPushMatrix();
 
 		glScalef(config->scale.x, config->scale.y, config->scale.z);
@@ -339,9 +394,10 @@ void ogl::GlutWindow::glutDisplay() {
 				glEnd();
 			glPopMatrix();
 		}
-
+		//Display Cells
     	render->axisDraw();
 		render->renderCells(frames[config->player.frame]->cells, config);
+		//Display Interface
     	if(config->display.showInfo)
     	{
     		std::string info = 	"Agents: " +  std::to_string(frames[config->player.frame]->cells.size()) + "    Out cells: " +  std::to_string(frames[config->player.frame]->outCells)  + "    Tumor cells: " +  std::to_string(frames[config->player.frame]->tumorCells)  + "    Time step: " +  std::to_string(frames[config->player.frame]->time);
@@ -395,7 +451,7 @@ void ogl::GlutWindow::glutDisplay() {
 	glPopMatrix();
 
 	GlutWindow::play();
-
+// Finish Binding FBO
 	if(config->highRes==true){
 		glBindFramebuffer(GL_READ_FRAMEBUFFER,framebuffer);
 		glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
@@ -407,7 +463,15 @@ void ogl::GlutWindow::glutDisplay() {
 
 	glutSwapBuffers();
 }
+//Reshape
+/********************************************//**
 
+*\brief Essa função redimenciona a tela.
+
+*\param width recebe largura da tela.
+*\param height recebe altura da tela.
+
+***********************************************/
 void ogl::GlutWindow::glutReshape(GLsizei width, GLsizei height) {
 	if (height == 0) height = 1;                // To prevent divide by 0
 	GLfloat aspect = (GLfloat)width / (GLfloat)height;
@@ -426,7 +490,15 @@ void ogl::GlutWindow::glutReshape(GLsizei width, GLsizei height) {
 	glLoadIdentity();
 	gluLookAt(observer.x/2, observer.y/2, observer.z/1.2, observer.x/2, observer.y/2, observer.x/2, 0.0, 1.0, 0.0); //EYE, CENTER & UP
 }
+// Pass Frames
+/********************************************//**
 
+*\brief Essa função é responsável pelo controle entre os frames.
+
+*\details PLAY,REVERSE,PREVIOUS e NEXT são comandos dados pelo usuário
+para controlar a passagem entre os frames.
+
+***********************************************/
 void ogl::GlutWindow::play() {
 	if(config->player.state != PAUSE)
 	{
@@ -475,7 +547,13 @@ void ogl::GlutWindow::play() {
 	}
 }
 
+// Render Graphic
+/********************************************//**
 
+*\brief Essa função é responsável por criar o retangulo gráfico colorido
+ ao selecionar Oxigen e EGF.
+
+***********************************************/
 void ogl::GlutWindow::renderQuad(GLdouble x, GLdouble y) {
 	glMatrixMode( GL_PROJECTION );
 	glPushMatrix();

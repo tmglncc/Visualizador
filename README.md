@@ -28,7 +28,8 @@ Possui as configurações do projeto. É possível mudar as configurações sem 
 
 ### Screenshot
 
-- `p`/`P` - Screenshot PNG/JPG
+- `p` - Screenshot JPG de baixa resolução
+- `P` - Screenshot PNG de alta resolução / Resolução pode ser alterada em config.cfg
 - `o`/`O` - Inicia/Para sequência de screenshots
 
 ### Controle das linhas de corte
